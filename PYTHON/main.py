@@ -1,9 +1,9 @@
 import numpy as np
 import pandas as pd
 import tkinter as tk
-from os import listdir
-import sql_queries as sqlq
+from sql_queries import SQLQuery
 import datetime as dt
+from influxdb_queries import InfluxDBQuery
 
 
 class Window(tk.Frame):
@@ -12,7 +12,8 @@ class Window(tk.Frame):
         super().__init__()
         self.window = window
 
-        self.sql_handler = sqlq.SQLQuery()
+        self.sql_handler = SQLQuery()
+        self.timeseries_handler = InfluxDBQuery()
 
         self.executing_type = tk.StringVar(master=self.window, value="mean")
         tk.OptionMenu(self.window, self.executing_type, "mean", "sum", "median").grid(row=0, column=0)
@@ -66,6 +67,13 @@ class Window(tk.Frame):
                                                     self.station.get(),
                                                     start_date,
                                                     end_date)
+            self.result_text.set(result)
+        elif self.database_type.get() == "timeseries":
+            result = self.timeseries_handler.execute_query(self.executing_type.get(),
+                                                           self.directions.get(),
+                                                           self.station.get(),
+                                                           start_date,
+                                                           end_date)
             self.result_text.set(result)
 
     def exit(self):

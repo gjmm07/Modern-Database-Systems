@@ -30,6 +30,7 @@ class SQLQuery:
         return self.on_station(operation_lookup[operation], station_code, start_date, end_date)
 
     def on_station(self, operation, station_code, start_date, end_date):
+        print(station_code)
         query = """ SELECT {operation}("max. temperature in the previous hour (°c)") FROM DATA_0
                     INNER JOIN WEATHER_STATION WS on DATA_0.STATION_CODE = WS.WID
                     WHERE WS.WNAME = '{station_code}' 

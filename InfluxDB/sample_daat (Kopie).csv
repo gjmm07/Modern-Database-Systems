@@ -1,0 +1,13 @@
+#group,false,false,false,false,true,true,true,true
+#datatype,string,long,dateTime:RFC3339,double,string,string,string,string
+#default,mean,,,,,,,
+,result,table,_time,_value,_field,_measurement,host,region
+,,0,2023-01-01T00:52:00Z,15.43,mem,m,A,east
+,,1,2023-01-01T00:52:00Z,59.25,mem,m,B,north
+,,2,2023-01-01T00:52:00Z,52.62,mem,m,C,south
+,,3,2023-01-02T01:52:00Z,15.67,mem,m,A,east
+,,4,2023-01-02T01:52:00Z,61.2,mem,m,B,north
+,,5,2023-01-02T01:52:00Z,51.03,mem,m,C,south
+,,6,2023-01-03T02:52:00Z,15.91,mem,m,A,east
+,,7,2023-01-03T02:52:00Z,65.3,mem,m,B,north
+,,8,2023-01-03T02:52:00Z,50.31,mem,m,C,south
