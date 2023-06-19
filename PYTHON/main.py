@@ -21,17 +21,17 @@ class Window(tk.Frame):
         self.database_type = tk.StringVar(master=self.window, value="sql")
         tk.OptionMenu(self.window, self.database_type, "sql", "timeseries").grid(row=1, column=0)
 
-        df = pd.read_csv("Preprocessed_data/stations_0.csv")
+        df = pd.read_csv("Preprocessed_data/sql_stations_0.csv")
         stations = df["station_code"].to_numpy()
         directions = df["directions"].to_numpy()
 
         self.directions = tk.StringVar(master=self.window)
-        tk.OptionMenu(self.window, self.directions, *np.unique(directions)).grid(row=2, column=0)
+        tk.OptionMenu(self.window, self.directions, *np.unique(directions), "").grid(row=2, column=0)
 
         self.station = tk.StringVar(self.window)
         self.station_options = tk.OptionMenu(self.window,
                                              self.station,
-                                             *stations)
+                                             *stations, "")
         self.station_options.grid(row=3, column=0)
         self.station_options.config(width=20)
 
@@ -49,11 +49,16 @@ class Window(tk.Frame):
         tk.OptionMenu(self.window, self.months_end, *list(range(1, 13))).grid(row=1, column=4)
         tk.OptionMenu(self.window, self.years_end, *list(range(2000, 2023))).grid(row=1, column=5)
 
+        self.grouper = tk.StringVar(master=self.window, value="Fully")
+        tk.OptionMenu(self.window, self.grouper, "Fully", "Years", "Quarters", "Months", "Weeks").grid(row=2, column=3)
+
         self.execute_button = tk.Button(text="execute", master=self.window, command=self.execute)
         self.execute_button.grid(row=6, column=0)
 
         self.result_text = tk.StringVar(master=self.window)
-        tk.Label(self.window, textvariable=self.result_text).grid(row=6, column=1)
+        result_label = tk.Label(self.window, textvariable=self.result_text, relief="solid")
+        result_label.config(width=30, height=20)
+        result_label.grid(row=6, column=1)
         self.exit_button = tk.Button(text="exit", master=self.window, command=self.exit)
         self.exit_button.grid(row=6, column=4)
 
@@ -66,14 +71,16 @@ class Window(tk.Frame):
                                                     self.directions.get(),
                                                     self.station.get(),
                                                     start_date,
-                                                    end_date)
+                                                    end_date,
+                                                    self.grouper.get())
             self.result_text.set(result)
         elif self.database_type.get() == "timeseries":
             result = self.timeseries_handler.execute_query(self.executing_type.get(),
                                                            self.directions.get(),
                                                            self.station.get(),
                                                            start_date,
-                                                           end_date)
+                                                           end_date,
+                                                           self.grouper.get())
             self.result_text.set(result)
 
     def exit(self):

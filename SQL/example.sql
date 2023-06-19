@@ -27,25 +27,21 @@ INSERT INTO WEATHER_STATION VALUES
 INSERT INTO WEATHER_STATION VALUES
                                 (2, 'A724', 1);
 INSERT INTO WEATHER_STATION VALUES
-                                 (3, 'A936', 1);
+                                (3, 'A043', 2);
 INSERT INTO WEATHER_STATION VALUES
-                                (4, 'A034', 2);
+                                (4, 'A202', 2);
 INSERT INTO WEATHER_STATION VALUES
-                                (5, 'A202', 2);
+                                (5, 'A841', 3);
 INSERT INTO WEATHER_STATION VALUES
-                                (6, 'A229', 2);
+                                (6, 'A838', 3);
 INSERT INTO WEATHER_STATION VALUES
-                                (7, 'A841', 3);
+                                (7, 'A366', 4);
 INSERT INTO WEATHER_STATION VALUES
-                                (8, 'A838', 3);
+                                (8, 'A443', 4);
 INSERT INTO WEATHER_STATION VALUES
-                                (9, 'A366', 4);
+                                (9, 'A618', 5);
 INSERT INTO WEATHER_STATION VALUES
-                                (10, 'A443', 4);
-INSERT INTO WEATHER_STATION VALUES
-                                (11, 'A618', 5);
-INSERT INTO WEATHER_STATION VALUES
-                                (12, 'A748', 5);
+                                (10, 'A748', 5);
 
 
 commit;
@@ -53,43 +49,46 @@ commit;
 
 SELECT min(DID) FROM WEATHER_STATION;
 
+SELECT avg("max. temperature in the previous hour (°c)") FROM SQL_DATA_0
+WHERE  SQL_DATA_0.STATION_CODE = 10;
+
 
 -- Select all stations in the north
 SELECT WNAME FROM WEATHER_STATION w
 INNER JOIN DIRECTIONS D on w.DID = D.DID
-WHERE D.NAME = 'north';
+WHERE D.NAME = 'southeast';
 
 
 -- Select Data from one station
-SELECT * FROM DATA_0
-INNER JOIN WEATHER_STATION WS on DATA_0.STATION_CODE = WS.WID
-WHERE WS.WNAME = 'A443';
+SELECT avg("max. temperature in the previous hour (°c)") FROM SQL_DATA_0
+INNER JOIN WEATHER_STATION WS on SQL_DATA_0.STATION_CODE = WS.WID
+WHERE WS.WNAME = 'A748';
 
 -- Select Data from one station during a time range
-SELECT * FROM DATA_0
-INNER JOIN WEATHER_STATION WS on DATA_0.STATION_CODE = WS.WID
-WHERE WS.WNAME = 'A724' and DATA_0.TIMESTAMP BETWEEN TO_TIMESTAMP('01-Jan-10') and TO_TIMESTAMP('20-Jan-10');
+SELECT * FROM SQL_DATA_0
+INNER JOIN WEATHER_STATION WS on SQL_DATA_0.STATION_CODE = WS.WID
+WHERE WS.WNAME = 'A724' and SQL_DATA_0.TIMESTAMP BETWEEN TO_TIMESTAMP('01-Jan-10') and TO_TIMESTAMP('20-Jan-10');
 
 -- Select all the data from the north
-SELECT * FROM DATA_0
-INNER JOIN WEATHER_STATION WS on DATA_0.STATION_CODE = WS.WID
+SELECT * FROM SQL_DATA_0
+INNER JOIN WEATHER_STATION WS on SQL_DATA_0.STATION_CODE = WS.WID
 INNER JOIN DIRECTIONS D on D.DID = WS.DID
 WHERE D.NAME = 'north';
 
 -- Simply select data from the station code 2
-SELECT * FROM DATA_0
-WHERE DATA_0.STATION_CODE = 2;
+SELECT * FROM SQL_DATA_0
+WHERE SQL_DATA_0.STATION_CODE = 2;
 
 -- Get the average temperature from the north between 2006 and 2007
-SELECT avg("max. temperature in the previous hour (°c)") FROM DATA_0
-INNER JOIN WEATHER_STATION WS on DATA_0.STATION_CODE = WS.WID
+SELECT avg("max. temperature in the previous hour (°c)") FROM SQL_DATA_0
+INNER JOIN WEATHER_STATION WS on SQL_DATA_0.STATION_CODE = WS.WID
 INNER JOIN DIRECTIONS D on D.DID = WS.DID
-WHERE D.NAME = 'north' and DATA_0.TIMESTAMP BETWEEN TO_TIMESTAMP('01-Jan-06') and TO_TIMESTAMP('31-Dez-07');
+WHERE D.NAME = 'north' and SQL_DATA_0.TIMESTAMP BETWEEN TO_TIMESTAMP('01-Jan-06') and TO_TIMESTAMP('31-Dez-07');
 
 -- Get the average temperature from the north between 2006 and 2007
-SELECT sum("max. temperature in the previous hour (°c)") FROM DATA_0
-INNER JOIN WEATHER_STATION WS on DATA_0.STATION_CODE = WS.WID
+SELECT sum("max. temperature in the previous hour (°c)") FROM SQL_DATA_0
+INNER JOIN WEATHER_STATION WS on SQL_DATA_0.STATION_CODE = WS.WID
 INNER JOIN DIRECTIONS D on D.DID = WS.DID
-WHERE D.NAME = 'north' and DATA_0.TIMESTAMP BETWEEN TO_TIMESTAMP('01-Jan-06') and TO_TIMESTAMP('31-Dez-07');
+WHERE D.NAME = 'north' and SQL_DATA_0.TIMESTAMP BETWEEN TO_TIMESTAMP('01-Jan-06') and TO_TIMESTAMP('31-Dez-07');
 
 
