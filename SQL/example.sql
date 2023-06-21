@@ -65,9 +65,8 @@ INNER JOIN WEATHER_STATION WS on SQL_DATA_0.STATION_CODE = WS.WID
 WHERE WS.WNAME = 'A748';
 
 -- Select Data from one station during a time range
-SELECT * FROM SQL_DATA_0
-INNER JOIN WEATHER_STATION WS on SQL_DATA_0.STATION_CODE = WS.WID
-WHERE WS.WNAME = 'A724' and SQL_DATA_0.TIMESTAMP BETWEEN TO_TIMESTAMP('01-Jan-10') and TO_TIMESTAMP('20-Jan-10');
+SELECT avg("max. temperature in the previous hour (°c)") FROM SQL_DATA_0
+WHERE STATION_CODE = 1 and SQL_DATA_0.TIMESTAMP BETWEEN TO_TIMESTAMP('01-Jan-07') and TO_TIMESTAMP('01-Jan-08');
 
 -- Select all the data from the north
 SELECT * FROM SQL_DATA_0
@@ -83,12 +82,35 @@ WHERE SQL_DATA_0.STATION_CODE = 2;
 SELECT avg("max. temperature in the previous hour (°c)") FROM SQL_DATA_0
 INNER JOIN WEATHER_STATION WS on SQL_DATA_0.STATION_CODE = WS.WID
 INNER JOIN DIRECTIONS D on D.DID = WS.DID
-WHERE D.NAME = 'north' and SQL_DATA_0.TIMESTAMP BETWEEN TO_TIMESTAMP('01-Jan-06') and TO_TIMESTAMP('31-Dez-07');
+WHERE D.NAME = 'north' and SQL_DATA_0.TIMESTAMP BETWEEN TO_TIMESTAMP('01-Jan-07') and TO_TIMESTAMP('31-Dez-08');
 
 -- Get the average temperature from the north between 2006 and 2007
 SELECT sum("max. temperature in the previous hour (°c)") FROM SQL_DATA_0
 INNER JOIN WEATHER_STATION WS on SQL_DATA_0.STATION_CODE = WS.WID
 INNER JOIN DIRECTIONS D on D.DID = WS.DID
 WHERE D.NAME = 'north' and SQL_DATA_0.TIMESTAMP BETWEEN TO_TIMESTAMP('01-Jan-06') and TO_TIMESTAMP('31-Dez-07');
+
+SELECT extract(year from TIMESTAMP) as yr, avg("max. temperature in the previous hour (°c)") FROM SQL_DATA_0
+WHERE STATION_CODE = 1
+GROUP BY EXTRACT(year from TIMESTAMP)
+ORDER BY yr;
+
+SELECT extract(year from TIMESTAMP) as yr, avg("max. temperature in the previous hour (°c)") FROM SQL_DATA_0
+INNER JOIN WEATHER_STATION WS on SQL_DATA_0.STATION_CODE = WS.WID
+WHERE WS.WNAME = 'A719' AND TIMESTAMP BETWEEN TO_TIMESTAMP('01-Jan-00') and TO_TIMESTAMP('01-Jan-10')
+GROUP BY EXTRACT(year from TIMESTAMP)
+ORDER BY yr;
+
+
+SELECT extract(year from TIMESTAMP) as yr, extract(month from TIMESTAMP) as m, avg("max. temperature in the previous hour (°c)") FROM SQL_DATA_0
+INNER JOIN WEATHER_STATION WS on SQL_DATA_0.STATION_CODE = WS.WID
+WHERE WS.WNAME = 'A719' AND TIMESTAMP BETWEEN TO_TIMESTAMP('01-Jan-00') and TO_TIMESTAMP('01-Jan-10')
+GROUP BY EXTRACT(year from TIMESTAMP), extract(month from TIMESTAMP)
+ORDER BY yr, m;
+
+
+
+
+
 
 

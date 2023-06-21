@@ -66,6 +66,7 @@ class Window(tk.Frame):
         # todo: check for errors e.g. start date smaller than end date
         start_date = dt.date(int(self.years_start.get()), int(self.months_start.get()), int(self.days_start.get()))
         end_date = dt.date(int(self.years_end.get()), int(self.months_end.get()), int(self.days_end.get()))
+        print(self.database_type.get())
         if self.database_type.get() == "sql":
             result = self.sql_handler.execute_query(self.executing_type.get(),
                                                     self.directions.get(),
@@ -81,6 +82,7 @@ class Window(tk.Frame):
                                                            start_date,
                                                            end_date,
                                                            self.grouper.get())
+            print("result:" + result)
             self.result_text.set(result)
 
     def exit(self):

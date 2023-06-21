@@ -27,6 +27,7 @@ class InfluxDBQuery:
         else:
             query = self.on_station(operation_lookup[operation], station_code, start_date,
                                     end_date, influx_groups[grouper])
+        print(query)
         tables = self.query_api.query(query, org=self.org)
         data = []
         for table in tables:
@@ -36,10 +37,11 @@ class InfluxDBQuery:
 
         return "\n".join(data)
 
-    def on_direction(self, operation, direction, start_date, end_date, grouper):
+    @staticmethod
+    def on_direction(operation, direction, start_date, end_date, grouper):
         window = "|> window(every: {grouper})".format(grouper=grouper) if grouper is not None else ""
         print(window)
-        query = """from(bucket: "brazil_temperature")
+        query = """from(bucket: "temp_brazil")
         |> range(start: {start_date}, stop: {end_date})
         |> filter(fn: (r) => r.region == "{direction}")
         |> group(columns: ["region", "_measurement"], mode:"by")
@@ -49,13 +51,12 @@ class InfluxDBQuery:
                                    direction=direction,
                                    window=window,
                                    operation=operation)
-        print(query)
         return query
 
-    def on_station(self, operation, station_code, start_date, end_date, grouper):
+    @staticmethod
+    def on_station(operation, station_code, start_date, end_date, grouper):
         window = "|> window(every: {grouper})".format(grouper=grouper) if grouper is not None else ""
-        print(window)
-        query = """from(bucket: "brazil_temperature")
+        query = """from(bucket: "temp_brazil")
         |> range(start: {start_date}, stop: {end_date})
         |> filter(fn: (r) => r.station_code == "{station_code}")
         {window}
