@@ -59,10 +59,10 @@ INNER JOIN DIRECTIONS D on w.DID = D.DID
 WHERE D.NAME = 'southeast';
 
 
--- Select Data from one station in a specified time range
+-- Select Data from one station
 SELECT avg("max. temperature in the previous hour (°c)") FROM SQL_DATA_0
 INNER JOIN WEATHER_STATION WS on SQL_DATA_0.STATION_CODE = WS.WID
-WHERE WS.WNAME = 'A748' and SQL_DATA_0.TIMESTAMP BETWEEN TO_TIMESTAMP('01-Jan-12') and TO_TIMESTAMP('01-Jan-13');
+WHERE WS.WNAME = 'A748';
 
 -- Select Data from one station during a time range
 SELECT avg("max. temperature in the previous hour (°c)") FROM SQL_DATA_0
@@ -95,20 +95,17 @@ WHERE STATION_CODE = 1
 GROUP BY EXTRACT(year from TIMESTAMP)
 ORDER BY yr;
 
---Get average temperature over years from 2000 to 2010 from station A719
 SELECT extract(year from TIMESTAMP) as yr, avg("max. temperature in the previous hour (°c)") FROM SQL_DATA_0
 INNER JOIN WEATHER_STATION WS on SQL_DATA_0.STATION_CODE = WS.WID
 WHERE WS.WNAME = 'A719' AND TIMESTAMP BETWEEN TO_TIMESTAMP('01-Jan-00') and TO_TIMESTAMP('01-Jan-10')
 GROUP BY EXTRACT(year from TIMESTAMP)
 ORDER BY yr;
 
--- Get average temperature over months from 2000 to 2010 from the north
-SELECT extract(year from TIMESTAMP) as yr, extract(month from TIMESTAMP) as m,
-       avg("max. temperature in the previous hour (°c)") FROM SQL_DATA_0
+
+SELECT extract(year from TIMESTAMP) as yr, extract(month from TIMESTAMP) as m, avg("max. temperature in the previous hour (°c)") FROM SQL_DATA_0
 INNER JOIN WEATHER_STATION WS on SQL_DATA_0.STATION_CODE = WS.WID
-INNER JOIN DIRECTIONS D on D.DID = WS.DID
-WHERE D.NAME = 'north' AND TIMESTAMP BETWEEN TO_TIMESTAMP('01-Jan-00') and TO_TIMESTAMP('01-Jan-10')
-GROUP BY extract(year from TIMESTAMP), extract(month from TIMESTAMP)
+WHERE WS.WNAME = 'A719' AND TIMESTAMP BETWEEN TO_TIMESTAMP('01-Jan-00') and TO_TIMESTAMP('01-Jan-10')
+GROUP BY EXTRACT(year from TIMESTAMP), extract(month from TIMESTAMP)
 ORDER BY yr, m;
 
 

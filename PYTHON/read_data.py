@@ -28,8 +28,6 @@ def return_station(filename: str):
     np.random.seed(5)
     ids = np.unique(pd.read_csv(PATH + "data/{}.csv".format(filename),
                                 usecols=["station_code"]))
-    print(ids)
-    print(len(ids))
     np.random.shuffle(ids)
     for i in ids:
         yield i
@@ -95,12 +93,10 @@ def save_file(*files, db_type="sql"):
 
 if __name__ == "__main__":
     # save_file(("central_west", 2), ("north", 2), ("south", 2), ("northeast", 2), ("southeast", 2), db_type="timeseries")
-    # df = read_single_w_station("central_west", "A719", pd.read_csv(PATH + "columns_description.csv")["columns_en"])
-    # df2 = read_single_w_station("central_west", "A724", pd.read_csv(PATH + "columns_description.csv")["columns_en"])
-    # df3 = pd.concat((df, df2))
-    # print(np.nanmean((df3["max. temperature in the previous hour (°c)"].to_numpy())))
+    df = read_single_w_station("central_west", "A719", pd.read_csv(PATH + "columns_description.csv")["columns_en"])
+    df2 = read_single_w_station("central_west", "A724", pd.read_csv(PATH + "columns_description.csv")["columns_en"])
+    df3 = pd.concat((df, df2))
+    print(np.nanmean((df3["max. temperature in the previous hour (°c)"].to_numpy())))
     # A719 26.013913282376837 (no problems)
     # A443 24.792159923845787 (sql with problems)
     # A748 23.819332592945155 (sql with problems)
-    gen = return_station("south")
-    print(next(gen))
