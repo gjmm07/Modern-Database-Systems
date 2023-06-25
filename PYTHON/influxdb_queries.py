@@ -44,7 +44,7 @@ class InfluxDBQuery:
         query = """from(bucket: "temp_brazil")
         |> range(start: {start_date}, stop: {end_date})
         |> filter(fn: (r) => r.region == "{direction}")
-        |> group(columns: ["region", "_measurement"], mode:"by")
+        |> group(columns: ["region"])
         {window}
         |> {operation}()""".format(start_date=start_date,
                                    end_date=end_date,
