@@ -21,6 +21,10 @@ b) write data to the influx database,
 
 c) query the data into a graphical user interface. 
 
+![SQL query monthly mean from 2015 to 2016](./images/SQL_monthly_mean_1516_station.png)
+
+![Timeseries query monthly meidan from 2015 to 2016](./images/timeseries_monthly_median_1516_station.png)
+
 
 Please read the project report for further insights. 
 
